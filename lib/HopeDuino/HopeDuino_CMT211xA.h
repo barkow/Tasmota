@@ -36,6 +36,7 @@
 	class cmt211xaClass
 	{
 	 public:	
+	 	cmt211xaClass(int dataPin, int clockPin);
 	 	chipsetType Chipset;						//Chipset part number
 		word SymbolTime;							//unit: us  Range: 10 - 4000
 		
@@ -51,6 +52,8 @@
 	 	twiClass Twi;
 	 	byte TxBuf[64];								//Tx Buffer
 	 	byte TxBufLength;							//Tx Buffer active length
+		int DataPin;
+		int ClockPin;
 	 	
 		void vOpenLdoAndOsc(void);
 		void vCloseLdoAndOsc(void);

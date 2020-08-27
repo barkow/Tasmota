@@ -31,13 +31,15 @@
 **Func: 	Init Port & config
 **Note: 	
 **********************************************************/
-void twiClass::vTWIInit(void)
+void twiClass::vTWIInit(int dataPin, int clockPin)
 {
- SetTCLK();
- pinMode(D1, OUTPUT);						//CLK Output;
+ DataPin = dataPin;
+ ClockPin = clockPin;
+ SetTCLK(ClockPin);
+ pinMode(ClockPin, OUTPUT);						//CLK Output;
  
- SetTDAT(); 
- OutputTDAT();	
+ SetTDAT(DataPin); 
+ OutputTDAT(DataPin);	
 }
 
 /**********************************************************
@@ -49,21 +51,21 @@ void twiClass::vTWIReset(void)
 {
  	byte bitcnt; 
  	
- 	SetTCLK();			//CLK = 1;
+ 	SetTCLK(ClockPin);			//CLK = 1;
  	
- 	OutputTDAT();
- 	ClrTDAT();			//DAT = 0;
+ 	OutputTDAT(DataPin);
+ 	ClrTDAT(DataPin);			//DAT = 0;
  	
  	for(bitcnt=32; bitcnt!=0; bitcnt--)
  		{
- 		SetTCLK();
+ 		SetTCLK(ClockPin);
 		delayMicroseconds(TWI_SPEED);
-		ClrTCLK();
+		ClrTCLK(ClockPin);
  		delayMicroseconds(TWI_SPEED);
  		}
  	
- 	SetTCLK();			//CLK = 1;
-	ClrTDAT();			//DAT = 0;
+ 	SetTCLK(ClockPin);			//CLK = 1;
+	ClrTDAT(DataPin);			//DAT = 0;
  	vTWIWrite(0x0D, 0x00);		//0x8D00 
 }
 
@@ -77,26 +79,26 @@ void twiClass::vTWIWriteByte(byte dat)
 {
  	byte bitcnt;	
  	
- 	SetTCLK();			//CLK = 1;
+ 	SetTCLK(ClockPin);			//CLK = 1;
  	
-	OutputTDAT();
- 	ClrTDAT();			//DAT = 0;
+	OutputTDAT(DataPin);
+ 	ClrTDAT(DataPin);			//DAT = 0;
  		
  	for(bitcnt=8; bitcnt!=0; bitcnt--)
  		{
- 		SetTCLK();
+ 		SetTCLK(ClockPin);
  		if(dat&0x80)
- 			SetTDAT();
+ 			SetTDAT(DataPin);
  		else
- 			ClrTDAT();
+ 			ClrTDAT(DataPin);
  		delayMicroseconds(TWI_SPEED);
- 		ClrTCLK();
+ 		ClrTCLK(ClockPin);
  		delayMicroseconds(TWI_SPEED);
  		dat <<= 1;
  		}
  	
- 	SetTCLK();			//CLK = 1;
- 	ClrTDAT();			//DAT = 0;
+ 	SetTCLK(ClockPin);			//CLK = 1;
+ 	ClrTDAT(DataPin);			//DAT = 0;
 }
 
 /**********************************************************
@@ -109,24 +111,24 @@ byte twiClass::bTWIReadByte(void)
  	byte RdPara = 0;
  	byte bitcnt;
  	
- 	InputTDAT(); 
- 	SetTCLK();			//CLK = 1; 
+ 	InputTDAT(DataPin); 
+ 	SetTCLK(ClockPin);			//CLK = 1; 
  	 
  	for(bitcnt=8; bitcnt!=0; bitcnt--)
  		{
- 		SetTCLK();
+ 		SetTCLK(ClockPin);
  		delayMicroseconds(TWI_SPEED);
  		RdPara <<= 1;
- 		ClrTCLK();
+ 		ClrTCLK(ClockPin);
  		delayMicroseconds(TWI_SPEED);
- 		if(TDAT_H())
+ 		if(TDAT_H(DataPin))
  			RdPara |= 0x01;
  		else
  			RdPara |= 0x00; 
  		}
- 	SetTCLK();	
-	OutputTDAT();
-	ClrTDAT();
+ 	SetTCLK(ClockPin);	
+	OutputTDAT(DataPin);
+	ClrTDAT(DataPin);
  	return(RdPara);
 }
 

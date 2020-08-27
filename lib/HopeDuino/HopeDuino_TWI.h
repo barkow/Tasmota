@@ -37,22 +37,22 @@
 
 	/** Hardware brief **/    
 
-	#define	SetTCLK()	digitalWrite(D1, HIGH)
-	#define	ClrTCLK()	digitalWrite(D1, LOW)
+	#define	SetTCLK(pin)	digitalWrite(pin, HIGH)
+	#define	ClrTCLK(pin)	digitalWrite(pin, LOW)
 	
-	#define	InputTDAT() pinMode(D4, INPUT)
-	#define	OutputTDAT() pinMode(D4, OUTPUT)
+	#define	InputTDAT(pin) pinMode(pin, INPUT)
+	#define	OutputTDAT(pin) pinMode(pin, OUTPUT)
 	
-	#define	SetTDAT()	digitalWrite(D4, HIGH)
-	#define	ClrTDAT()	digitalWrite(D4, LOW)
+	#define	SetTDAT(pin)	digitalWrite(pin, HIGH)
+	#define	ClrTDAT(pin)	digitalWrite(pin, LOW)
 	
-	#define TDAT_H()	(digitalRead(D4) == HIGH)
-	#define	TDAT_L()	(digitalRead(D4) == LOW)
+	#define TDAT_H(pin)	(digitalRead(pin) == HIGH)
+	#define	TDAT_L(pin)	(digitalRead(pin) == LOW)
 
 	class twiClass
 	{
 	 public:
-	 	void vTWIInit(void);							/** initialize TWI port **/
+	 	void vTWIInit(int dataPin, int clockPin);							/** initialize TWI port **/
 	 	void vTWIWrite(byte adr, byte dat);		
 	 	byte bTWIRead(byte adr);
 	 	void vTWIReset(void);
@@ -60,6 +60,8 @@
 	 private:
 	 	void vTWIWriteByte(byte dat);
 	 	byte bTWIReadByte(void);
+		int DataPin;
+		int ClockPin;
 	};
 
 #else

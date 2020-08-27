@@ -25,6 +25,11 @@
  */
 
 #include "HopeDuino_CMT211xA.h"
+
+cmt211xaClass::cmt211xaClass(int dataPin, int clockPin){
+	DataPin = dataPin;
+	ClockPin = clockPin;
+}
  
 /**********************************************************
 **Name:     vCMT211xAInit
@@ -34,14 +39,14 @@
 **********************************************************/
 void cmt211xaClass::vCMT211xAInit(void)
 {
- Twi.vTWIInit();	
+ Twi.vTWIInit(DataPin, ClockPin);	
 
  Twi.vTWIReset();				//step 1
  vSoftReset();					//step 2
  vTwiOff();						//step 3
 
- ClrTDAT();						//Set Dat to low
- OutputTDAT();					//Read for Tx
+ ClrTDAT(DataPin);						//Set Dat to low
+ OutputTDAT(DataPin);					//Read for Tx
 }
 
 /**********************************************************
@@ -53,7 +58,7 @@ void cmt211xaClass::vCMT211xAInit(void)
 void cmt211xaClass::vCMT2119AInit(word para[], byte length)
 {
  byte i;	
- Twi.vTWIInit();	
+ Twi.vTWIInit(DataPin, ClockPin);	
 
  Twi.vTWIReset();				//step 1
  vSoftReset();					//step 2
@@ -65,8 +70,8 @@ void cmt211xaClass::vCMT2119AInit(word para[], byte length)
 	vWriteReg(i, para[i]);		
  vTwiOff();						//step 7	
 
- ClrTDAT();						//Set Dat to low
- OutputTDAT();					//Read for Tx
+ ClrTDAT(DataPin);						//Set Dat to low
+ OutputTDAT(DataPin);					//Read for Tx
 }
 
 /**********************************************************
@@ -192,7 +197,7 @@ void cmt211xaClass::vTxPacket(void)
  byte i, j;
  byte bittime;
  
- Twi.vTWIInit();	
+ Twi.vTWIInit(DataPin, ClockPin);	
  Twi.vTWIReset();				//step 1
  vTwiOff();						//step 2
  
@@ -241,9 +246,9 @@ void cmt211xaClass::vTxPacket(void)
  	for(j=0x80; j!=0; j>>=1)
  		{
  		if(TxBuf[i]&j)
- 			SetTDAT();
+ 			SetTDAT(DataPin);
  		else
- 			ClrTDAT();
+ 			ClrTDAT(DataPin);
  		//OCR0A  = bittime;
  		//while((TIFR0&0x02)!=0x02);
  		//TIFR0 = 0x02;		//Clear flag
@@ -253,7 +258,7 @@ void cmt211xaClass::vTxPacket(void)
  //OCR0A  = 0;
  //TCCR0A = 0x00;		// 	
  //TCCR0B = 0x00;
- ClrTDAT(); 
+ ClrTDAT(DataPin); 
 }
 
 //**********************HAL Layer**************************
