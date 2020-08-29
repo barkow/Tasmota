@@ -26,9 +26,7 @@
 
 #include "HopeDuino_CMT211xA.h"
 
-cmt211xaClass::cmt211xaClass(int dataPin, int clockPin){
-	DataPin = dataPin;
-	ClockPin = clockPin;
+cmt211xaClass::cmt211xaClass(){
 }
  
 /**********************************************************
@@ -37,8 +35,10 @@ cmt211xaClass::cmt211xaClass(int dataPin, int clockPin){
 **Input:    none
 **Output:   none
 **********************************************************/
-void cmt211xaClass::vCMT211xAInit(void)
+void cmt211xaClass::vCMT211xAInit(int dataPin, int clockPin)
 {
+	DataPin = dataPin;
+	ClockPin = clockPin;
  Twi.vTWIInit(DataPin, ClockPin);	
 
  Twi.vTWIReset();				//step 1
@@ -55,8 +55,10 @@ void cmt211xaClass::vCMT211xAInit(void)
 **Input:    none
 **Output:   none
 **********************************************************/
-void cmt211xaClass::vCMT2119AInit(word para[], byte length)
+void cmt211xaClass::vCMT2119AInit(int dataPin, int clockPin, word para[], byte length)
 {
+	DataPin = dataPin;
+	ClockPin = clockPin;
  byte i;	
  Twi.vTWIInit(DataPin, ClockPin);	
 

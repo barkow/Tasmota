@@ -242,6 +242,8 @@ enum UserSelectablePins {
   GPIO_IEM3000_TX,     // IEM3000 Serial interface
   GPIO_IEM3000_RX,     // IEM3000 Serial interface
   GPIO_ZIGBEE_RST,     // Zigbee reset
+  GPIO_SOMFY_RTS_DAT,  // Somfy RTS pin for data
+  GPIO_SOMFY_RTS_CLK,  // Somfy RTS pin for clock
   GPIO_SENSOR_END };
 
 // Programmer selectable GPIO functionality
@@ -337,7 +339,8 @@ const char kSensorNames[] PROGMEM =
   D_SENSOR_TELEINFO_RX "|" D_SENSOR_TELEINFO_ENABLE "|"
   D_SENSOR_LMT01_PULSE "|"
   D_SENSOR_IEM3000_TX "|" D_SENSOR_IEM3000_RX "|"
-  D_SENSOR_ZIGBEE_RST
+  D_SENSOR_ZIGBEE_RST "|"
+  D_SENSOR_SOMFY_RTS_DAT "|" D_SENSOR_SOMFY_RTS_CLK
   ;
 
 const char kSensorNamesFixed[] PROGMEM =
@@ -710,6 +713,10 @@ const uint8_t kGpioNiceList[] PROGMEM = {
 #ifdef USE_TELEINFO
   GPIO_TELEINFO_RX,
   GPIO_TELEINFO_ENABLE,
+#endif
+#ifdef USE_SOMFY
+  GPIO_SOMFY_RTS_DAT,
+  GPIO_SOMFY_RTS_CLK
 #endif
 };
 

@@ -36,13 +36,13 @@
 	class cmt211xaClass
 	{
 	 public:	
-	 	cmt211xaClass(int dataPin, int clockPin);
+	 	cmt211xaClass();
 	 	chipsetType Chipset;						//Chipset part number
 		word SymbolTime;							//unit: us  Range: 10 - 4000
 		
 		
-		void vCMT211xAInit(void);
-		void vCMT2119AInit(word para[], byte length);
+		void vCMT211xAInit(int dataPin, int clockPin);
+		void vCMT2119AInit(int dataPin, int clockPin, word para[], byte length);
 		void vCMT211xASleep(void);
 		void vCMT2119ASleep(void);
 		void vEncode(byte ptr[], byte length, encodeType etype);
